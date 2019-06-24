@@ -17,14 +17,14 @@ player1 = player.Player(25, 200, 25, 150)
 player2 = player.Player(width-75, 200, 25, 150)
 ball1 = ball.Ball(480, 270, 15, 15)
 ball1.set_vel_x(10)
-ball1.set_vel_y(10)
+ball1.set_vel_y(-10)
 
 player1_score = 0
 player2_score = 0
 
 scored = False
+ai = True
 
-# player1_score_text = pygame.font.SysFont("Roboto", 30)
 text = pygame.freetype.SysFont("Roboto", 30)
 
 running = True
@@ -39,6 +39,9 @@ while running:
     # Get keystrokes
     keys = pygame.key.get_pressed()
 
+    # Toggle AI
+    if keys[pygame.K_f]:
+        ai = not ai
     # Player 1 movement
     if keys[pygame.K_w] and player1.get_y() > 10:
         player1.set_vel_y(-7)
@@ -47,12 +50,34 @@ while running:
     else:
         player1.set_vel_y(0)
     # Player 2 movement
-    if keys[pygame.K_UP] and player2.get_y() > 10:
-        player2.set_vel_y(-7)
-    elif keys[pygame.K_DOWN] and player2.get_y() < height - 10 - player2.get_height():
-        player2.set_vel_y(7)
+    if not ai:
+        if keys[pygame.K_UP] and player2.get_y() > 10:
+            player2.set_vel_y(-7)
+        elif keys[pygame.K_DOWN] and player2.get_y() < height - 10 - player2.get_height():
+            player2.set_vel_y(7)
+        else:
+            player2.set_vel_y(0)
     else:
-        player2.set_vel_y(0)
+        # Player 2 AI
+        if ball1.get_vel_x() > 0:
+            if ball1.get_vel_y() > 0 and ball1.get_x() > width/3 and ball1.get_y() > height/8 and player2.get_y() <= height - 10 - player2.get_height():
+                print("[AI] Going down")
+                player2.set_vel_y(7)
+            elif ball1.get_vel_y() < 0 and ball1.get_x() > width/4 and ball1.get_y() < height-height/8 and player2.get_y() >= 10:
+                print("[AI] Going up,")
+                player2.set_vel_y(-7)
+            else:
+                print("Velocity Frozen!")
+                player2.set_vel_y(0)
+        # Fix AI breaking the damn boundaries
+        if player2.get_y() < 10:
+            player2.set_y(10)
+            player2.set_vel_y(0)
+            print("/!\\ AI tried to break upper boundaries")
+        if player2.get_y() > height - 10 - player2.get_height():
+            player2.set_y(height - 10 - player2.get_height())
+            player2.set_vel_y(0)
+            print("/!\\ AI tried to break lower boundaries")
     
     # Background colour
     screen.fill((0, 0, 0))
@@ -91,8 +116,9 @@ while running:
     player1.render(screen)
     player2.render(screen)
     ball1.render(screen)
-    # Scores
+    # Text
     text.render_to(screen, (width/2-30, 50), "{} - {}".format(player1_score, player2_score), (255, 255, 255))
+    text.render_to(screen, (width/4, height-50), "Press F to toggle Player 2 AI", (255, 255, 255))
     # Update the display
     pygame.display.flip()
 
