@@ -14,4 +14,4 @@ Download using `pip3 install pygame`, or download the latest wheel [here](https:
 Simply `cd` to the directory of the `__main__.py` file and run it using `python __main__.py`, or run `python` on the folder containing `__main__.py`.
 
 ## Controls
-As of now there is no built-in AI, but that's something I'm working on. Player 1 (left) uses the W and S keys, while Player 2 (right) uses the Up and Down arrows.
+Player 1 (left) uses W and S to control their padddle, and player 2 is controlled by AI. If you want to play with two players, press F once you start the game, then control player 2 using the up and down arrow keys.
