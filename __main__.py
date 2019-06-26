@@ -86,7 +86,7 @@ while running:
         ball1.set_vel_x(ball1.get_vel_x()*-1)
         # ball1.set_vel_y(ball1.get_vel_y()*-1)
     # Ball collision detection with top and bottom border
-    if ball1.check_collision_rect_autohitbox(0, 0, width, ball1.get_height(), 1) or ball1.check_collision_rect_autohitbox(0, height, width, ball1.get_height(), 1):
+    if ball1.check_collision_rect_autohitbox(0, -15, width, ball1.get_height(), 1) or ball1.check_collision_rect_autohitbox(0, height, width, ball1.get_height(), 1):
         ball1.set_vel_y(ball1.get_vel_y()*-1)
     # Ball goes past Player 1
     if ball1.check_collision_rect_autohitbox(0, 0, ball1.get_width(), height, 1):
