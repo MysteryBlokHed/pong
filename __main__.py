@@ -64,7 +64,7 @@ while running:
                 print("[AI] Going down")
                 player2.set_vel_y(7)
             elif ball1.get_vel_y() < 0 and ball1.get_x() > width/4 and ball1.get_y() < height-height/8 and player2.get_y() >= 10:
-                print("[AI] Going up,")
+                print("[AI] Going up")
                 player2.set_vel_y(-7)
             else:
                 print("Velocity Frozen!")
@@ -82,18 +82,18 @@ while running:
     # Background colour
     screen.fill((0, 0, 0))
     # Ball collision detection with players
-    if ball1.check_collision_autohitbox(player1.get_x(), player1.get_y(), player1.get_width(), player1.get_height()) or ball1.check_collision_autohitbox(player2.get_x(), player2.get_y(), player2.get_width(), player2.get_height()):
+    if ball1.check_collision_rect_autohitbox(player1.get_x(), player1.get_y(), player1.get_width(), player1.get_height(), 1) or ball1.check_collision_rect_autohitbox(player2.get_x(), player2.get_y(), player2.get_width(), player2.get_height(), 1):
         ball1.set_vel_x(ball1.get_vel_x()*-1)
         # ball1.set_vel_y(ball1.get_vel_y()*-1)
     # Ball collision detection with top and bottom border
-    if ball1.check_collision_autohitbox(0, 0, width, ball1.get_height()) or ball1.check_collision_autohitbox(0, height, width, ball1.get_height()):
+    if ball1.check_collision_rect_autohitbox(0, 0, width, ball1.get_height(), 1) or ball1.check_collision_rect_autohitbox(0, height, width, ball1.get_height(), 1):
         ball1.set_vel_y(ball1.get_vel_y()*-1)
     # Ball goes past Player 1
-    if ball1.check_collision_autohitbox(0, 0, ball1.get_width(), height):
+    if ball1.check_collision_rect_autohitbox(0, 0, ball1.get_width(), height, 1):
         player2_score += 1
         scored = True
     # Ball goes past Player 2
-    if ball1.check_collision_autohitbox(width, 0, ball1.get_width(), height):
+    if ball1.check_collision_rect_autohitbox(width, 0, ball1.get_width(), height, 1):
         player1_score += 1
         scored = True
     # Reset positions if anyone scored

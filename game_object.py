@@ -72,9 +72,19 @@ class GameObject(object):
     def tick(self):
         pass
     
-    def check_collision_autohitbox(self, x, y, width, height):
-        """Check a collision with another object. x, y, width, and height are for the other object."""
-        if self._x <= x + width and self._x >= x and self._y <= y + height and self._y >= y:
-            return True
-        else:
-            return False
+    def check_collision_rect_autohitbox(self, x, y, width, height, mode=0):
+        """Check a collision with another rectangular object. x, y, width, and height are for the other object.
+        mode: The current object's shape. 0=rectangle, 1=oval."""
+        # Check collision as rectange
+        if mode == 0:
+            if self._x <= x + width and self._x >= x and self._y <= y + height and self._y >= y:
+                return True
+            else:
+                return False
+        # Check collision as oval
+        elif mode == 1:
+            # if self._x - self._width/2 <= x + width and self._x + self._width/2 >= x and self._y - self._height/2 <= y + height and self._y + self._height/2 >= y:
+            if self._x - self._width <= x + width and self._x + self._width >= x and self._y - self._height <= y + height and self._y + self._height >= y:
+                return True
+            else:
+                return False
